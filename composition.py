@@ -68,7 +68,7 @@ class Composition:
         self.mydb = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="vfrc15403",
+            password="password",
             database='composition'
         )
         self.__table_name = 'Composition_' + table_name
