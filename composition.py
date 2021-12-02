@@ -5,7 +5,7 @@
 # according to the request.
 
 import mysql.connector
-
+import json
 
 class Good:
     """Contains info about name, quantity and price of product
@@ -64,12 +64,14 @@ class Good:
 
 class Composition:
     """Is created to operate with goods and database"""
-    def __init__(self, table_name):
+    def __init__(self, table_name, data_file):
+        this_file = open(data_file)
+        data = json.load(this_file)
         self.mydb = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="password",
-            database='composition'
+            host=data["host"],
+            user=data["root"],
+            password=data['password'],
+            database=data['database']
         )
         self.__table_name = 'Composition_' + table_name
         mycursor = self.mydb.cursor(buffered=True)
@@ -80,6 +82,7 @@ class Composition:
                               'quantity INT, '
                               'price FLOAT)')
         mycursor.close()
+        this_file.close()
 
     def __iadd__(self, good: Good):
         """Add a good to the composition
