@@ -3,6 +3,7 @@
 # overload operations to replenish product information, retrieve product
 # information, generate a report on the availability of goods in stock
 # according to the request.
+import os
 
 import mysql.connector
 import json
@@ -65,6 +66,9 @@ class Good:
 class Composition:
     """Is created to operate with goods and database"""
     def __init__(self, table_name, data_file):
+        if not os.path.getsize(data_file):
+            raise ValueError(f'{data_file} is empty')
+
         this_file = open(data_file)
         data = json.load(this_file)
         self.mydb = mysql.connector.connect(
